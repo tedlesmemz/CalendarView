@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Height Calendar for Tablet</title>
+    <title>Improved Calendar UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base size variable - set to 50% of original */
@@ -64,7 +64,7 @@
             height: 100%; /* Take full height of container */
         }
         
-        /* Compact Header - fixed height */
+        /* Header with increased height and vertical centering */
         .date-header {
             padding: calc(10px * var(--base-size)) calc(15px * var(--base-size));
             text-align: center;
@@ -73,7 +73,11 @@
             background: rgba(30, 30, 30, 0.7);
             position: relative;
             overflow: hidden;
-            height: calc(140px * var(--base-size)); /* Fixed header height */
+            height: calc(180px * var(--base-size)); /* Increased height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center content */
+            align-items: center; /* Horizontally center content */
         }
         
         .date-header::before {
@@ -90,7 +94,7 @@
         .current-date {
             font-size: calc(1.8rem * var(--base-size));
             font-weight: 400;
-            margin-bottom: calc(3px * var(--base-size));
+            margin-bottom: calc(5px * var(--base-size)); /* Increased spacing */
             color: #64b5f6;
             text-shadow: 0 0 calc(10px * var(--base-size)) rgba(100, 181, 246, 0.3);
         }
@@ -100,14 +104,14 @@
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: calc(8px * var(--base-size));
+            margin-bottom: calc(12px * var(--base-size)); /* Increased spacing */
             color: #bbbbbb;
         }
         
         .current-time {
-            font-size: calc(2.2rem * var(--base-size));
+            font-size: calc(2.4rem * var(--base-size)); /* Slightly larger */
             font-weight: 400;
-            margin: calc(5px * var(--base-size)) 0 calc(3px * var(--base-size));
+            margin: calc(8px * var(--base-size)) 0 calc(5px * var(--base-size)); /* Better spacing */
             color: #f0f0f0;
             min-height: calc(40px * var(--base-size)); /* Ensure time has space */
         }
@@ -115,7 +119,7 @@
         .timezone-info {
             font-size: calc(0.9rem * var(--base-size));
             color: #a0a0a0;
-            margin-top: calc(3px * var(--base-size));
+            margin-top: calc(5px * var(--base-size)); /* Increased spacing */
             font-style: italic;
         }
         
@@ -123,7 +127,7 @@
             flex: 1; /* Take remaining space */
             overflow-y: auto;
             padding: calc(15px * var(--base-size));
-            height: calc(100% - 140px * var(--base-size)); /* Adjusted for header */
+            height: calc(100% - 180px * var(--base-size)); /* Adjusted for increased header */
         }
         
         .events-header {
@@ -160,18 +164,50 @@
             gap: calc(12px * var(--base-size));
         }
         
-        /* Compact Event Items */
+        /* Updated Event Layout */
+        .event-item-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-left: calc(90px * var(--base-size)); /* Space for time */
+        }
+        
+        .event-time-container {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            min-width: calc(80px * var(--base-size));
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Align times to right */
+            padding-right: calc(15px * var(--base-size));
+            z-index: 2;
+        }
+        
+        .event-time-container .start {
+            font-size: calc(1.1rem * var(--base-size));
+            margin-bottom: calc(3px * var(--base-size));
+            color: #bbbbbb;
+        }
+        
+        .event-time-container .end {
+            font-size: calc(0.9rem * var(--base-size));
+            color: rgba(200, 200, 200, 0.7);
+        }
+        
         .event-item {
             background: rgba(45, 45, 45, 0.8);
             padding: calc(15px * var(--base-size));
             border-radius: calc(12px * var(--base-size));
-            display: flex;
             transition: all 0.3s ease;
             box-shadow: 0 calc(6px * var(--base-size)) calc(20px * var(--base-size)) rgba(0, 0, 0, 0.4);
             border-left: calc(4px * var(--base-size)) solid #64b5f6;
             backdrop-filter: blur(calc(5px * var(--base-size)));
             border: 1px solid rgba(80, 80, 80, 0.4);
             animation: fadeIn 0.5s ease-out;
+            width: 100%; /* Take full available space */
         }
         
         @keyframes fadeIn {
@@ -186,31 +222,8 @@
             background: rgba(50, 50, 50, 0.9);
         }
         
-        .event-time {
-            min-width: calc(80px * var(--base-size));
-            font-weight: 500;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding-right: calc(15px * var(--base-size));
-            border-right: 1px solid rgba(80, 80, 80, 0.5);
-        }
-        
-        .event-time .start {
-            font-size: calc(1.1rem * var(--base-size));
-            margin-bottom: calc(3px * var(--base-size));
-            color: #bbbbbb;
-        }
-        
-        .event-time .end {
-            font-size: calc(0.9rem * var(--base-size));
-            color: rgba(200, 200, 200, 0.7);
-        }
-        
         .event-details {
             flex: 1;
-            padding-left: calc(15px * var(--base-size));
         }
         
         .event-title {
@@ -351,7 +364,7 @@
         @media (max-width: 600px) {
             .date-header {
                 padding: calc(8px * var(--base-size)) calc(10px * var(--base-size));
-                height: calc(120px * var(--base-size));
+                height: calc(150px * var(--base-size));
             }
             
             .current-date {
@@ -363,27 +376,35 @@
             }
             
             .current-time {
-                font-size: calc(1.8rem * var(--base-size));
+                font-size: calc(2rem * var(--base-size));
+            }
+            
+            .event-item-container {
+                padding-left: 0;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .event-time-container {
+                position: relative;
+                transform: none;
+                top: auto;
+                left: auto;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                padding-right: 0;
+                padding-bottom: calc(8px * var(--base-size));
+                width: 100%;
+            }
+            
+            .event-time-container .start {
+                margin-right: calc(15px * var(--base-size));
+                margin-bottom: 0;
             }
             
             .event-item {
-                flex-direction: column;
-                padding: calc(12px * var(--base-size));
-            }
-            
-            .event-time {
-                flex-direction: row;
-                justify-content: center;
-                border-right: none;
-                border-bottom: 1px solid rgba(80, 80, 80, 0.5);
-                padding-right: 0;
-                padding-bottom: calc(12px * var(--base-size));
-                margin-bottom: calc(12px * var(--base-size));
-                min-width: auto;
-            }
-            
-            .event-time .start {
-                margin-right: calc(15px * var(--base-size));
+                width: 100%;
             }
         }
     </style>
@@ -690,8 +711,8 @@
             
             // Create event elements
             events.forEach((event, index) => {
-                const eventElement = document.createElement('li');
-                eventElement.className = 'event-item';
+                const eventContainer = document.createElement('li');
+                eventContainer.className = 'event-item-container';
                 
                 // Assign color in sequence
                 const colorIndex = index % EVENT_COLORS.length;
@@ -700,29 +721,32 @@
                 
                 dailyEvents.push(event); // Store for current event detection
                 
-                // Apply event color to left border
-                eventElement.style.borderLeftColor = eventColor;
-                
                 const startTime = event.start ? formatTime(event.start) : "All Day";
                 const endTime = event.end ? formatTime(event.end) : "";
                 
-                eventElement.innerHTML = `
-                    <div class="event-time">
+                eventContainer.innerHTML = `
+                    <div class="event-time-container">
                         <div class="start">${startTime}</div>
                         ${endTime ? `<div class="end">${endTime}</div>` : ''}
                     </div>
-                    <div class="event-details">
-                        <div class="event-title">${event.title || 'Untitled Event'}</div>
-                        ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
-                        ${event.location ? `
-                        <div class="event-location">
-                            <i class="fas fa-map-marker-alt"></i> ${event.location}
+                    <div class="event-item">
+                        <div class="event-details">
+                            <div class="event-title">${event.title || 'Untitled Event'}</div>
+                            ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
+                            ${event.location ? `
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i> ${event.location}
+                            </div>
+                            ` : ''}
                         </div>
-                        ` : ''}
                     </div>
                 `;
                 
-                eventListEl.appendChild(eventElement);
+                // Apply event color to left border
+                const eventItem = eventContainer.querySelector('.event-item');
+                eventItem.style.borderLeftColor = eventColor;
+                
+                eventListEl.appendChild(eventContainer);
             });
         }
         
