@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compact Calendar App</title>
+    <title>Full Height Calendar for Tablet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base size variable - set to 50% of original */
@@ -28,6 +28,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            padding: 0;
         }
         
         body::before {
@@ -44,14 +45,12 @@
         .container {
             max-width: calc(850px * var(--base-size));
             width: 95%;
-            height: calc(95vh * var(--base-size));
+            height: 95vh; /* Use viewport height */
             display: flex;
             flex-direction: column;
-            padding: calc(10px * var(--base-size));
         }
         
         .calendar-section {
-            flex: 1;
             display: flex;
             flex-direction: column;
             background: rgba(35, 35, 35, 0.92);
@@ -62,17 +61,19 @@
             border: 1px solid rgba(80, 80, 80, 0.3);
             position: relative;
             z-index: 1;
+            height: 100%; /* Take full height of container */
         }
         
-        /* Compact Header */
+        /* Compact Header - fixed height */
         .date-header {
-            padding: calc(15px * var(--base-size)) calc(15px * var(--base-size));
+            padding: calc(10px * var(--base-size)) calc(15px * var(--base-size));
             text-align: center;
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
             transition: all 0.5s ease;
             background: rgba(30, 30, 30, 0.7);
             position: relative;
             overflow: hidden;
+            height: calc(140px * var(--base-size)); /* Fixed header height */
         }
         
         .date-header::before {
@@ -108,6 +109,7 @@
             font-weight: 400;
             margin: calc(5px * var(--base-size)) 0 calc(3px * var(--base-size));
             color: #f0f0f0;
+            min-height: calc(40px * var(--base-size)); /* Ensure time has space */
         }
         
         .timezone-info {
@@ -118,9 +120,10 @@
         }
         
         .events-container {
-            flex: 1;
+            flex: 1; /* Take remaining space */
             overflow-y: auto;
             padding: calc(15px * var(--base-size));
+            height: calc(100% - 140px * var(--base-size)); /* Adjusted for header */
         }
         
         .events-header {
@@ -130,6 +133,10 @@
             margin-bottom: calc(15px * var(--base-size));
             padding-bottom: calc(12px * var(--base-size));
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
+            position: sticky;
+            top: 0;
+            background: rgba(35, 35, 35, 0.92);
+            z-index: 10;
         }
         
         .events-title {
@@ -148,13 +155,15 @@
         
         .event-list {
             list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            gap: calc(12px * var(--base-size));
         }
         
         /* Compact Event Items */
         .event-item {
             background: rgba(45, 45, 45, 0.8);
             padding: calc(15px * var(--base-size));
-            margin-bottom: calc(12px * var(--base-size));
             border-radius: calc(12px * var(--base-size));
             display: flex;
             transition: all 0.3s ease;
@@ -242,6 +251,11 @@
             background: rgba(45, 45, 45, 0.6);
             margin-top: calc(15px * var(--base-size));
             animation: fadeIn 0.5s ease-out;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         .no-events i {
@@ -278,6 +292,7 @@
             flex-direction: column;
             align-items: center;
             animation: fadeIn 0.5s ease-out;
+            height: 100%;
         }
         
         .spinner {
@@ -335,7 +350,8 @@
         
         @media (max-width: 600px) {
             .date-header {
-                padding: calc(12px * var(--base-size)) calc(10px * var(--base-size));
+                padding: calc(8px * var(--base-size)) calc(10px * var(--base-size));
+                height: calc(120px * var(--base-size));
             }
             
             .current-date {
