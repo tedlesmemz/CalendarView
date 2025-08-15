@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Touch Portal Calendar</title>
+    <title>Dark Calendar App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -21,34 +21,62 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background-color 0.5s ease;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(60, 60, 60, 0.8) 0%, rgba(40, 40, 40, 0.9) 70%);
+            z-index: -1;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 850px;
             width: 95%;
             height: 95vh;
             display: flex;
             flex-direction: column;
+            padding: 15px;
         }
         
         .calendar-section {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: rgba(30, 30, 30, 0.85);
-            border-radius: 16px;
+            background: rgba(35, 35, 35, 0.92);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            position: relative;
+            z-index: 1;
         }
         
         .date-header {
             padding: 25px 20px;
             text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(80, 80, 80, 0.5);
             transition: all 0.5s ease;
+            background: rgba(30, 30, 30, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .date-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #64b5f6, #ff6b6b, #a4bdfc);
+            opacity: 0.7;
         }
         
         .current-date {
@@ -56,7 +84,8 @@
             font-weight: 300;
             letter-spacing: 1px;
             margin-bottom: 5px;
-            transition: color 0.5s ease;
+            color: #64b5f6;
+            text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
         }
         
         .current-day {
@@ -65,15 +94,24 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             margin-bottom: 15px;
-            transition: color 0.5s ease;
+            color: #bbbbbb;
         }
         
         .current-time {
             font-size: 3.5rem;
             font-weight: 300;
             letter-spacing: 2px;
-            margin: 15px 0;
-            transition: color 0.5s ease;
+            margin: 15px 0 5px;
+            color: #f0f0f0;
+            text-shadow: 0 0 15px rgba(240, 240, 240, 0.3);
+        }
+        
+        .timezone-info {
+            font-size: 1rem;
+            color: #a0a0a0;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            font-style: italic;
         }
         
         .events-container {
@@ -82,25 +120,57 @@
             padding: 20px;
         }
         
+        .events-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(80, 80, 80, 0.5);
+        }
+        
+        .events-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #64b5f6;
+        }
+        
+        .event-count {
+            background: rgba(100, 181, 246, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #bbbbbb;
+        }
+        
         .event-list {
             list-style-type: none;
         }
         
         .event-item {
-            background: rgba(40, 40, 40, 0.7);
+            background: rgba(45, 45, 45, 0.8);
             padding: 20px;
             margin-bottom: 16px;
-            border-radius: 12px;
+            border-radius: 15px;
             display: flex;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             border-left: 5px solid #64b5f6;
             backdrop-filter: blur(5px);
+            border: 1px solid rgba(80, 80, 80, 0.4);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .event-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+            border-left: 5px solid #ff6b6b;
+            background: rgba(50, 50, 50, 0.9);
         }
         
         .event-time {
@@ -111,17 +181,18 @@
             align-items: center;
             justify-content: center;
             padding-right: 20px;
-            border-right: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(80, 80, 80, 0.5);
         }
         
         .event-time .start {
             font-size: 1.4rem;
             margin-bottom: 5px;
+            color: #bbbbbb;
         }
         
         .event-time .end {
             font-size: 1rem;
-            color: rgba(255,255,255,0.7);
+            color: rgba(200, 200, 200, 0.7);
         }
         
         .event-details {
@@ -130,20 +201,21 @@
         }
         
         .event-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 8px;
             font-weight: 500;
+            color: #f0f0f0;
         }
         
         .event-description {
-            color: rgba(255,255,255,0.7);
+            color: rgba(200, 200, 200, 0.8);
             font-size: 1rem;
             margin-top: 10px;
             line-height: 1.5;
         }
         
         .event-location {
-            color: rgba(255,255,255,0.7);
+            color: rgba(200, 200, 200, 0.8);
             font-size: 1rem;
             display: flex;
             align-items: center;
@@ -152,20 +224,26 @@
         
         .event-location i {
             margin-right: 8px;
+            color: #64b5f6;
         }
         
         .no-events {
             text-align: center;
             padding: 60px 20px;
-            color: rgba(255,255,255,0.5);
+            color: rgba(200, 200, 200, 0.6);
             font-style: italic;
             font-size: 1.2rem;
+            border-radius: 15px;
+            background: rgba(45, 45, 45, 0.6);
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-out;
         }
         
         .no-events i {
             font-size: 3rem;
             margin-bottom: 20px;
             display: block;
+            color: #64b5f6;
         }
         
         /* Scrollbar styling */
@@ -174,14 +252,17 @@
         }
         
         ::-webkit-scrollbar-track {
-            background: rgba(40, 40, 40, 0.5);
+            background: rgba(45, 45, 45, 0.5);
             border-radius: 10px;
         }
         
         ::-webkit-scrollbar-thumb {
             background: rgba(100, 181, 246, 0.5);
             border-radius: 10px;
-            transition: background 0.5s ease;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 181, 246, 0.7);
         }
         
         /* Loading animation */
@@ -191,6 +272,7 @@
             padding: 50px;
             flex-direction: column;
             align-items: center;
+            animation: fadeIn 0.5s ease-out;
         }
         
         .spinner {
@@ -209,7 +291,7 @@
         }
         
         .status-text {
-            color: rgba(255,255,255,0.7);
+            color: rgba(200, 200, 200, 0.8);
             font-size: 1.1rem;
             text-align: center;
         }
@@ -218,11 +300,12 @@
             background: rgba(255, 107, 107, 0.3);
             color: #fff;
             padding: 15px;
-            border-radius: 8px;
-            margin: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
             text-align: center;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s ease-out;
         }
         
         .retry-btn {
@@ -241,6 +324,7 @@
         .retry-btn:hover {
             background: rgba(100, 181, 246, 1);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(100, 181, 246, 0.4);
         }
         
         @media (max-width: 600px) {
@@ -269,7 +353,7 @@
                 flex-direction: row;
                 justify-content: center;
                 border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(80, 80, 80, 0.5);
                 padding-right: 0;
                 padding-bottom: 15px;
                 margin-bottom: 15px;
@@ -286,12 +370,17 @@
     <div class="container">
         <section class="calendar-section">
             <div class="date-header" id="dateHeader">
-                <div class="current-date" id="currentDate">August 10, 2025</div>
-                <div class="current-day" id="currentDay">Sunday</div>
+                <div class="current-date" id="currentDate">August 16, 2025</div>
+                <div class="current-day" id="currentDay">Saturday</div>
                 <div class="current-time" id="currentTime">10:30 AM</div>
+                <div class="timezone-info" id="timezoneInfo">Eastern Daylight Time</div>
             </div>
             
             <div class="events-container">
+                <div class="events-header">
+                    <div class="events-title">Today's Events</div>
+                    <div class="event-count" id="eventCount">4 events</div>
+                </div>
                 <div id="errorContainer"></div>
                 <ul class="event-list" id="eventList">
                     <div class="loading" id="loadingIndicator">
@@ -312,14 +401,13 @@
         
         // Event colors in sequence
         const EVENT_COLORS = [
+            "#64b5f6", // Blue
+            "#ff6b6b", // Coral
             "#a4bdfc", // Lavender
             "#7ae7bf", // Sage
             "#dbadff", // Grape
-            "#ff887c", // Flamingo
-            "#fbd75b", // Banana
             "#ffb878", // Tangerine
             "#46d6db", // Peacock
-            "#e1e1e1", // Graphite
             "#5484ed", // Blueberry
             "#51b749", // Basil
             "#dc2127"  // Tomato
@@ -333,10 +421,12 @@
         const currentDateEl = document.getElementById('currentDate');
         const currentDayEl = document.getElementById('currentDay');
         const currentTimeEl = document.getElementById('currentTime');
+        const timezoneInfoEl = document.getElementById('timezoneInfo');
         const eventListEl = document.getElementById('eventList');
         const loadingIndicator = document.getElementById('loadingIndicator');
         const errorContainer = document.getElementById('errorContainer');
         const dateHeader = document.getElementById('dateHeader');
+        const eventCountEl = document.getElementById('eventCount');
         
         // Format date as "Month Day, Year"
         function formatDate(date) {
@@ -356,12 +446,25 @@
             return date.toLocaleTimeString('en-US', options);
         }
         
+        // Get current timezone
+        function getTimezone() {
+            try {
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const now = new Date();
+                const timezoneString = now.toLocaleTimeString('en-us', {timeZoneName: 'long'}).split(' ')[2];
+                return timezoneString || timezone;
+            } catch (e) {
+                return "Local Time";
+            }
+        }
+        
         // Update the displayed date and time
         function updateDateTime() {
             const now = new Date();
             currentDateEl.textContent = formatDate(now);
             currentDayEl.textContent = formatDay(now);
             currentTimeEl.textContent = formatTime(now);
+            timezoneInfoEl.textContent = getTimezone();
             
             // Check for current event
             updateCurrentEvent(now);
@@ -388,25 +491,19 @@
                 currentTimeEl.style.color = color;
                 
                 // Apply subtle background effect
-                dateHeader.style.background = `rgba(${hexToRgb(color)}, 0.1)`;
+                dateHeader.style.background = `rgba(${hexToRgb(color)}, 0.15)`;
                 dateHeader.style.borderBottom = `1px solid ${color}`;
-                
-                // Apply color to scrollbar
-                document.documentElement.style.setProperty('--scrollbar-thumb-color', color);
             } else {
                 // Reset to default colors
                 const defaultColor = "#64b5f6";
                 
                 currentDateEl.style.color = defaultColor;
-                currentDayEl.style.color = "#bbb";
-                currentTimeEl.style.color = defaultColor;
+                currentDayEl.style.color = "#bbbbbb";
+                currentTimeEl.style.color = "#f0f0f0";
                 
                 // Reset background
-                dateHeader.style.background = "rgba(30, 30, 30, 0.85)";
-                dateHeader.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
-                
-                // Reset scrollbar
-                document.documentElement.style.setProperty('--scrollbar-thumb-color', 'rgba(100, 181, 246, 0.5)');
+                dateHeader.style.background = "rgba(30, 30, 30, 0.7)";
+                dateHeader.style.borderBottom = "1px solid rgba(80, 80, 80, 0.5)";
             }
         }
         
@@ -466,7 +563,7 @@
             }
         }
         
-        // Parse iCal date string
+        // Parse iCal date string with timezone fix
         function parseICalDate(dateString) {
             // Basic iCal date parsing (format: YYYYMMDDTHHMMSSZ or YYYYMMDD)
             if (dateString.length >= 8) {
@@ -483,9 +580,20 @@
                     hours = parseInt(dateString.substring(9, 11));
                     minutes = parseInt(dateString.substring(11, 13));
                     seconds = dateString.length > 13 ? parseInt(dateString.substring(13, 15)) : 0;
+                    
+                    // Check if UTC (ends with Z)
+                    if (dateString.endsWith('Z')) {
+                        // Create as UTC and convert to local time
+                        const utcDate = new Date(Date.UTC(year, month, day, hours, minutes, seconds));
+                        return new Date(utcDate);
+                    } else {
+                        // Create as local time
+                        return new Date(year, month, day, hours, minutes, seconds);
+                    }
+                } else {
+                    // All-day event - create as local date
+                    return new Date(year, month, day);
                 }
-                
-                return new Date(year, month, day, hours, minutes, seconds);
             }
             return null;
         }
@@ -541,6 +649,9 @@
             eventListEl.innerHTML = '';
             dailyEvents = []; // Reset daily events
             
+            // Update event count
+            eventCountEl.textContent = `${events.length} event${events.length !== 1 ? 's' : ''}`;
+            
             if (events.length === 0) {
                 eventListEl.innerHTML = `
                     <div class="no-events">
@@ -570,8 +681,8 @@
                 // Apply event color to left border
                 eventElement.style.borderLeftColor = eventColor;
                 
-                const startTime = formatTime(event.start);
-                const endTime = formatTime(event.end);
+                const startTime = event.start ? formatTime(event.start) : "All Day";
+                const endTime = event.end ? formatTime(event.end) : "";
                 
                 eventElement.innerHTML = `
                     <div class="event-time">
