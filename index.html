@@ -6,12 +6,11 @@
     <title>Enhanced Calendar UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base size variable - set to 50% of original */
+        /* Base size variable */
         :root {
             --base-size: 0.5;
         }
         
-        /* Calculate sizes based on base size */
         * {
             margin: 0;
             padding: 0;
@@ -65,7 +64,6 @@
             height: 100%;
         }
         
-        /* Header with increased height and vertical centering */
         .date-header {
             padding: calc(25px * var(--base-size)) calc(15px * var(--base-size));
             text-align: center;
@@ -170,7 +168,6 @@
             gap: calc(18px * var(--base-size));
         }
         
-        /* NEW Event Layout - Time on top */
         .event-item {
             background: rgba(45, 45, 45, 0.8);
             border-radius: calc(14px * var(--base-size));
@@ -198,14 +195,24 @@
             padding: calc(15px * var(--base-size)) calc(20px * var(--base-size));
             background: rgba(40, 40, 40, 0.6);
             border-bottom: 1px solid rgba(80, 80, 80, 0.3);
-            gap: calc(20px * var(--base-size));
+            gap: calc(30px * var(--base-size));
+        }
+        
+        .event-info-group {
+            display: flex;
+            align-items: center;
+            gap: calc(10px * var(--base-size));
+        }
+        
+        .event-info-group i {
+            color: #64b5f6;
+            font-size: calc(1.1rem * var(--base-size));
+            min-width: calc(20px * var(--base-size));
         }
         
         .event-time-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            flex: 1;
         }
         
         .event-time-container .start {
@@ -220,34 +227,28 @@
             margin-top: calc(3px * var(--base-size));
         }
         
-        .divider {
-            height: calc(30px * var(--base-size));
-            width: 1px;
-            background: linear-gradient(to bottom, 
-                transparent 0%, 
-                rgba(100, 181, 246, 0.5) 30%, 
-                rgba(100, 181, 246, 0.5) 70%, 
-                transparent 100%);
-        }
-        
         .event-location-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            flex: 1;
         }
         
         .event-location-top {
             color: rgba(200, 200, 200, 0.8);
-            font-size: calc(0.95rem * var(--base-size));
+            font-size: calc(1.05rem * var(--base-size));
             display: flex;
             align-items: center;
             gap: calc(8px * var(--base-size));
         }
         
-        .event-location-top i {
-            color: #64b5f6;
-            min-width: calc(16px * var(--base-size));
+        .event-location-text {
+            font-size: calc(0.95rem * var(--base-size));
+            color: rgba(200, 200, 200, 0.8);
+            margin-top: calc(3px * var(--base-size));
+        }
+        
+        .no-location {
+            opacity: 0.5;
+            font-style: italic;
         }
         
         .event-details {
@@ -268,11 +269,6 @@
             font-size: calc(0.95rem * var(--base-size));
             margin-top: calc(10px * var(--base-size));
             line-height: 1.5;
-        }
-        
-        .no-location {
-            opacity: 0.5;
-            font-style: italic;
         }
         
         .no-events {
@@ -299,7 +295,6 @@
             color: #64b5f6;
         }
         
-        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: calc(8px * var(--base-size));
         }
@@ -318,7 +313,6 @@
             background: linear-gradient(to bottom, #5aa9e6, #7eb0f5);
         }
         
-        /* Loading animation */
         .loading {
             display: flex;
             justify-content: center;
@@ -381,7 +375,6 @@
             box-shadow: 0 calc(6px * var(--base-size)) calc(15px * var(--base-size)) rgba(100, 181, 246, 0.5);
         }
         
-        /* Tablet-specific fixes */
         @media (max-width: 1024px) and (min-width: 601px) {
             .date-header {
                 height: calc(220px * var(--base-size));
@@ -420,14 +413,9 @@
                 gap: calc(12px * var(--base-size));
             }
             
-            .divider {
-                width: 80%;
-                height: 1px;
-                background: linear-gradient(to right, 
-                    transparent 0%, 
-                    rgba(100, 181, 246, 0.5) 30%, 
-                    rgba(100, 181, 246, 0.5) 70%, 
-                    transparent 100%);
+            .event-info-group {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -752,17 +740,21 @@
                 eventContainer.innerHTML = `
                     <div class="event-item">
                         <div class="event-top-bar">
-                            <div class="event-time-container">
-                                <div class="start">${startTime}</div>
-                                ${endTime ? `<div class="end">${endTime}</div>` : ''}
+                            <div class="event-info-group">
+                                <i class="fas fa-clock"></i>
+                                <div class="event-time-container">
+                                    <div class="start">${startTime}</div>
+                                    ${endTime ? `<div class="end">${endTime}</div>` : ''}
+                                </div>
                             </div>
-                            <div class="divider"></div>
-                            <div class="event-location-container">
-                                <div class="event-location-top">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span class="${!event.location ? 'no-location' : ''}">
-                                        ${event.location || 'No location'}
-                                    </span>
+                            
+                            <div class="event-info-group">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="event-location-container">
+                                    <div class="event-location-top">Location</div>
+                                    <div class="event-location-text ${!event.location ? 'no-location' : ''}">
+                                        ${event.location || 'Not specified'}
+                                    </div>
                                 </div>
                             </div>
                         </div>
