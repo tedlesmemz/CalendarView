@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Improved Calendar UI</title>
+    <title>Enhanced Calendar UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base size variable - set to 50% of original */
@@ -20,7 +20,8 @@
         }
         
         body {
-            background-color: #282828;
+            background-color: #1a1a1a;
+            background-image: linear-gradient(135deg, #2c2c2c 0%, #1e1e1e 100%);
             color: #f0f0f0;
             min-height: 100vh;
             display: flex;
@@ -38,14 +39,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(60, 60, 60, 0.8) 0%, rgba(40, 40, 40, 0.9) 70%);
+            background: radial-gradient(circle at 20% 30%, rgba(60, 60, 60, 0.8) 0%, rgba(40, 40, 40, 0.9) 70%);
             z-index: -1;
         }
         
         .container {
             max-width: calc(850px * var(--base-size));
             width: 95%;
-            height: 95vh; /* Use viewport height */
+            height: 95vh;
             display: flex;
             flex-direction: column;
         }
@@ -56,28 +57,27 @@
             background: rgba(35, 35, 35, 0.92);
             border-radius: calc(16px * var(--base-size));
             overflow: hidden;
-            box-shadow: 0 calc(8px * var(--base-size)) calc(25px * var(--base-size)) rgba(0, 0, 0, 0.7);
+            box-shadow: 0 calc(8px * var(--base-size)) calc(30px * var(--base-size)) rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(calc(12px * var(--base-size)));
             border: 1px solid rgba(80, 80, 80, 0.3);
             position: relative;
             z-index: 1;
-            height: 100%; /* Take full height of container */
+            height: 100%;
         }
         
         /* Header with increased height and vertical centering */
         .date-header {
-            padding: calc(25px * var(--base-size)) calc(15px * var(--base-size)); /* Increased top padding */
+            padding: calc(25px * var(--base-size)) calc(15px * var(--base-size));
             text-align: center;
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
-            transition: all 0.5s ease;
-            background: rgba(30, 30, 30, 0.7);
+            background: linear-gradient(160deg, rgba(30, 30, 30, 0.85) 0%, rgba(25, 25, 25, 0.9) 100%);
             position: relative;
             overflow: hidden;
-            height: calc(210px * var(--base-size)); /* Increased height */
+            height: calc(210px * var(--base-size));
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically center content */
-            align-items: center; /* Horizontally center content */
+            justify-content: center;
+            align-items: center;
         }
         
         .date-header::before {
@@ -88,43 +88,43 @@
             width: 100%;
             height: 3px;
             background: linear-gradient(90deg, #64b5f6, #ff6b6b, #a4bdfc);
-            opacity: 0.7;
         }
         
         .current-date {
-            font-size: calc(1.8rem * var(--base-size));
+            font-size: calc(1.9rem * var(--base-size));
             font-weight: 400;
-            margin-bottom: calc(8px * var(--base-size)); /* Increased spacing */
+            margin-bottom: calc(8px * var(--base-size));
             color: #64b5f6;
-            text-shadow: 0 0 calc(10px * var(--base-size)) rgba(100, 181, 246, 0.3);
+            text-shadow: 0 0 calc(12px * var(--base-size)) rgba(100, 181, 246, 0.4);
         }
         
         .current-day {
-            font-size: calc(1.3rem * var(--base-size));
+            font-size: calc(1.35rem * var(--base-size));
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: calc(15px * var(--base-size)); /* Increased spacing */
+            margin-bottom: calc(15px * var(--base-size));
             color: #bbbbbb;
         }
         
         .current-time {
-            font-size: calc(2.4rem * var(--base-size)); /* Slightly larger */
-            font-weight: 400;
-            margin: calc(12px * var(--base-size)) 0 calc(8px * var(--base-size)); /* Better spacing */
+            font-size: calc(2.6rem * var(--base-size));
+            font-weight: 300;
+            margin: calc(12px * var(--base-size)) 0 calc(8px * var(--base-size));
             color: #f0f0f0;
-            min-height: calc(40px * var(--base-size)); /* Ensure time has space */
+            min-height: calc(45px * var(--base-size));
+            letter-spacing: -1px;
         }
         
         .timezone-info {
-            font-size: calc(0.9rem * var(--base-size));
+            font-size: calc(0.95rem * var(--base-size));
             color: #a0a0a0;
-            margin-top: calc(8px * var(--base-size)); /* Increased spacing */
+            margin-top: calc(8px * var(--base-size));
             font-style: italic;
         }
         
         .events-container {
-            flex: 1; /* Take remaining space */
+            flex: 1;
             overflow-y: auto;
             padding: calc(15px * var(--base-size));
         }
@@ -133,8 +133,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: calc(15px * var(--base-size));
-            padding: calc(15px * var(--base-size)) 0; /* Added vertical padding */
+            margin-bottom: calc(18px * var(--base-size));
+            padding: calc(15px * var(--base-size)) 0;
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
             position: sticky;
             top: 0;
@@ -143,16 +143,23 @@
         }
         
         .events-title {
-            font-size: calc(1.3rem * var(--base-size));
+            font-size: calc(1.35rem * var(--base-size));
             font-weight: 500;
             color: #64b5f6;
+            display: flex;
+            align-items: center;
+            gap: calc(10px * var(--base-size));
+        }
+        
+        .events-title i {
+            color: #ff6b6b;
         }
         
         .event-count {
             background: rgba(100, 181, 246, 0.2);
-            padding: calc(4px * var(--base-size)) calc(10px * var(--base-size));
+            padding: calc(6px * var(--base-size)) calc(12px * var(--base-size));
             border-radius: calc(20px * var(--base-size));
-            font-size: calc(0.85rem * var(--base-size));
+            font-size: calc(0.9rem * var(--base-size));
             color: #bbbbbb;
         }
         
@@ -160,107 +167,108 @@
             list-style-type: none;
             display: flex;
             flex-direction: column;
-            gap: calc(15px * var(--base-size));
+            gap: calc(18px * var(--base-size));
         }
         
-        /* NEW Event Layout with Separate Time Box */
-        .event-item-container {
-            display: flex;
-            flex-direction: row;
-            align-items: stretch;
-            gap: calc(15px * var(--base-size));
-        }
-        
-        .event-time-box {
-            min-width: calc(85px * var(--base-size));
+        /* NEW Event Layout - Time on left with divider */
+        .event-item {
             background: rgba(45, 45, 45, 0.8);
-            border-radius: calc(10px * var(--base-size));
-            padding: calc(12px * var(--base-size));
+            border-radius: calc(14px * var(--base-size));
+            transition: all 0.3s ease;
+            box-shadow: 0 calc(6px * var(--base-size)) calc(20px * var(--base-size)) rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(calc(5px * var(--base-size)));
+            border: 1px solid rgba(80, 80, 80, 0.4);
+            animation: fadeIn 0.5s ease-out;
+            display: flex;
+            overflow: hidden;
+            border-left: calc(5px * var(--base-size)) solid #64b5f6;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .event-time-container {
+            min-width: calc(100px * var(--base-size));
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-left: calc(4px * var(--base-size)) solid #64b5f6;
-            backdrop-filter: blur(calc(5px * var(--base-size)));
-            border: 1px solid rgba(80, 80, 80, 0.4);
-            box-shadow: 0 calc(4px * var(--base-size)) calc(10px * var(--base-size)) rgba(0, 0, 0, 0.3);
+            padding: calc(18px * var(--base-size)) calc(15px * var(--base-size));
+            background: rgba(40, 40, 40, 0.6);
+            position: relative;
         }
         
-        .event-time-box .start {
-            font-size: calc(1.1rem * var(--base-size));
+        .event-time-container::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(100, 181, 246, 0.5) 30%, 
+                rgba(100, 181, 246, 0.5) 70%, 
+                transparent 100%);
+        }
+        
+        .event-time-container .start {
+            font-size: calc(1.25rem * var(--base-size));
             font-weight: 500;
-            margin-bottom: calc(3px * var(--base-size));
+            margin-bottom: calc(5px * var(--base-size));
             color: #f0f0f0;
         }
         
-        .event-time-box .end {
-            font-size: calc(0.9rem * var(--base-size));
-            color: rgba(200, 200, 200, 0.7);
-        }
-        
-        .event-item {
-            flex: 1;
-            background: rgba(45, 45, 45, 0.8);
-            padding: calc(15px * var(--base-size));
-            border-radius: calc(12px * var(--base-size));
-            transition: all 0.3s ease;
-            box-shadow: 0 calc(6px * var(--base-size)) calc(20px * var(--base-size)) rgba(0, 0, 0, 0.4);
-            border-left: calc(4px * var(--base-size)) solid #64b5f6;
-            backdrop-filter: blur(calc(5px * var(--base-size)));
-            border: 1px solid rgba(80, 80, 80, 0.4);
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .event-item:hover {
-            transform: translateY(calc(-3px * var(--base-size)));
-            box-shadow: 0 calc(8px * var(--base-size)) calc(25px * var(--base-size)) rgba(0, 0, 0, 0.5);
-            background: rgba(50, 50, 50, 0.9);
+        .event-time-container .end {
+            font-size: calc(0.95rem * var(--base-size));
+            color: rgba(200, 200, 200, 0.8);
         }
         
         .event-details {
             flex: 1;
+            padding: calc(18px * var(--base-size)) calc(20px * var(--base-size));
         }
         
         .event-title {
-            font-size: calc(1.2rem * var(--base-size));
-            margin-bottom: calc(6px * var(--base-size));
+            font-size: calc(1.3rem * var(--base-size));
+            margin-bottom: calc(8px * var(--base-size));
             font-weight: 500;
             color: #f0f0f0;
         }
         
         .event-description {
             color: rgba(200, 200, 200, 0.8);
-            font-size: calc(0.9rem * var(--base-size));
-            margin-top: calc(8px * var(--base-size));
-            line-height: 1.4;
+            font-size: calc(0.95rem * var(--base-size));
+            margin-top: calc(10px * var(--base-size));
+            line-height: 1.5;
         }
         
         .event-location {
             color: rgba(200, 200, 200, 0.8);
-            font-size: calc(0.9rem * var(--base-size));
+            font-size: calc(0.95rem * var(--base-size));
             display: flex;
             align-items: center;
-            margin-top: calc(8px * var(--base-size));
+            margin-top: calc(10px * var(--base-size));
+            padding: calc(8px * var(--base-size)) calc(12px * var(--base-size));
+            background: rgba(50, 50, 50, 0.4);
+            border-radius: calc(8px * var(--base-size));
+            width: fit-content;
         }
         
         .event-location i {
-            margin-right: calc(6px * var(--base-size));
+            margin-right: calc(8px * var(--base-size));
             color: #64b5f6;
-            font-size: calc(0.9rem * var(--base-size));
         }
         
         .no-events {
             text-align: center;
-            padding: calc(40px * var(--base-size)) calc(15px * var(--base-size));
+            padding: calc(50px * var(--base-size)) calc(15px * var(--base-size));
             color: rgba(200, 200, 200, 0.6);
             font-style: italic;
-            font-size: calc(1.1rem * var(--base-size));
-            border-radius: calc(12px * var(--base-size));
+            font-size: calc(1.15rem * var(--base-size));
+            border-radius: calc(14px * var(--base-size));
             background: rgba(45, 45, 45, 0.6);
             margin-top: calc(15px * var(--base-size));
             animation: fadeIn 0.5s ease-out;
@@ -272,36 +280,36 @@
         }
         
         .no-events i {
-            font-size: calc(2.5rem * var(--base-size));
-            margin-bottom: calc(15px * var(--base-size));
+            font-size: calc(3rem * var(--base-size));
+            margin-bottom: calc(20px * var(--base-size));
             display: block;
             color: #64b5f6;
         }
         
         /* Scrollbar styling */
         ::-webkit-scrollbar {
-            width: calc(6px * var(--base-size));
+            width: calc(8px * var(--base-size));
         }
         
         ::-webkit-scrollbar-track {
             background: rgba(45, 45, 45, 0.5);
-            border-radius: calc(8px * var(--base-size));
+            border-radius: calc(10px * var(--base-size));
         }
         
         ::-webkit-scrollbar-thumb {
-            background: rgba(100, 181, 246, 0.5);
-            border-radius: calc(8px * var(--base-size));
+            background: linear-gradient(to bottom, #64b5f6, #a4bdfc);
+            border-radius: calc(10px * var(--base-size));
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(100, 181, 246, 0.7);
+            background: linear-gradient(to bottom, #5aa9e6, #7eb0f5);
         }
         
         /* Loading animation */
         .loading {
             display: flex;
             justify-content: center;
-            padding: calc(40px * var(--base-size));
+            padding: calc(50px * var(--base-size));
             flex-direction: column;
             align-items: center;
             animation: fadeIn 0.5s ease-out;
@@ -309,13 +317,13 @@
         }
         
         .spinner {
-            width: calc(40px * var(--base-size));
-            height: calc(40px * var(--base-size));
-            border: calc(3px * var(--base-size)) solid rgba(100, 181, 246, 0.3);
-            border-top: calc(3px * var(--base-size)) solid rgba(100, 181, 246, 1);
+            width: calc(45px * var(--base-size));
+            height: calc(45px * var(--base-size));
+            border: calc(4px * var(--base-size)) solid rgba(100, 181, 246, 0.3);
+            border-top: calc(4px * var(--base-size)) solid rgba(100, 181, 246, 1);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: calc(15px * var(--base-size));
+            animation: spin 1.2s linear infinite;
+            margin-bottom: calc(20px * var(--base-size));
         }
         
         @keyframes spin {
@@ -325,67 +333,62 @@
         
         .status-text {
             color: rgba(200, 200, 200, 0.8);
-            font-size: calc(1rem * var(--base-size));
+            font-size: calc(1.1rem * var(--base-size));
             text-align: center;
         }
         
         .error-message {
             background: rgba(255, 107, 107, 0.3);
             color: #fff;
-            padding: calc(12px * var(--base-size));
-            border-radius: calc(10px * var(--base-size));
-            margin: calc(12px * var(--base-size)) 0;
+            padding: calc(15px * var(--base-size));
+            border-radius: calc(12px * var(--base-size));
+            margin: calc(15px * var(--base-size)) 0;
             text-align: center;
-            backdrop-filter: blur(calc(5px * var(--base-size)));
+            backdrop-filter: blur(calc(6px * var(--base-size)));
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 0.5s ease-out;
         }
         
         .retry-btn {
-            background: rgba(100, 181, 246, 0.7);
+            background: linear-gradient(to right, #64b5f6, #a4bdfc);
             color: #fff;
             border: none;
-            padding: calc(6px * var(--base-size)) calc(14px * var(--base-size));
-            border-radius: calc(4px * var(--base-size));
-            margin-top: calc(8px * var(--base-size));
+            padding: calc(8px * var(--base-size)) calc(18px * var(--base-size));
+            border-radius: calc(25px * var(--base-size));
+            margin-top: calc(12px * var(--base-size));
             cursor: pointer;
             font-weight: 600;
-            font-size: calc(0.9rem * var(--base-size));
+            font-size: calc(0.95rem * var(--base-size));
             transition: all 0.3s ease;
-            backdrop-filter: blur(calc(5px * var(--base-size)));
+            box-shadow: 0 calc(4px * var(--base-size)) calc(10px * var(--base-size)) rgba(100, 181, 246, 0.3);
         }
         
         .retry-btn:hover {
-            background: rgba(100, 181, 246, 1);
             transform: translateY(calc(-2px * var(--base-size)));
-            box-shadow: 0 calc(4px * var(--base-size)) calc(12px * var(--base-size)) rgba(100, 181, 246, 0.4);
+            box-shadow: 0 calc(6px * var(--base-size)) calc(15px * var(--base-size)) rgba(100, 181, 246, 0.5);
         }
         
         /* Tablet-specific fixes */
         @media (max-width: 1024px) and (min-width: 601px) {
             .date-header {
-                height: calc(220px * var(--base-size)); /* Increased height */
-                padding-top: calc(30px * var(--base-size)); /* More top padding */
+                height: calc(220px * var(--base-size));
+                padding-top: calc(30px * var(--base-size));
             }
             
             .current-date {
-                margin-top: calc(10px * var(--base-size)); /* Added top margin */
+                font-size: calc(1.8rem * var(--base-size));
             }
             
-            .events-header {
-                padding-top: calc(15px * var(--base-size)); /* More top padding */
-                margin-top: calc(10px * var(--base-size)); /* Added top margin */
+            .current-time {
+                font-size: calc(2.4rem * var(--base-size));
             }
             
-            .event-item-container {
-                flex-direction: row !important;
-                align-items: stretch;
+            .event-item {
+                flex-direction: row;
             }
             
-            .event-time-box {
-                min-width: calc(85px * var(--base-size));
-                align-items: center;
-                justify-content: center;
+            .event-time-container {
+                min-width: calc(90px * var(--base-size));
             }
         }
         
@@ -400,28 +403,36 @@
             }
             
             .current-day {
-                font-size: calc(1.1rem * var(--base-size));
+                font-size: calc(1.15rem * var(--base-size));
             }
             
             .current-time {
-                font-size: calc(2rem * var(--base-size));
+                font-size: calc(2.0rem * var(--base-size));
             }
             
-            .event-item-container {
+            .event-item {
                 flex-direction: column;
             }
             
-            .event-time-box {
+            .event-time-container {
                 width: 100%;
                 flex-direction: row;
-                justify-content: flex-start;
-                gap: calc(20px * var(--base-size));
-                padding: calc(10px * var(--base-size)) calc(15px * var(--base-size));
+                justify-content: center;
+                gap: calc(25px * var(--base-size));
+                padding: calc(12px * var(--base-size));
             }
             
-            .event-time-box .start,
-            .event-time-box .end {
+            .event-time-container::after {
+                display: none;
+            }
+            
+            .event-time-container .start,
+            .event-time-container .end {
                 margin: 0;
+            }
+            
+            .event-details {
+                padding: calc(15px * var(--base-size));
             }
         }
     </style>
@@ -438,7 +449,10 @@
             
             <div class="events-container">
                 <div class="events-header">
-                    <div class="events-title">Today's Events</div>
+                    <div class="events-title">
+                        <i class="fas fa-calendar-day"></i>
+                        Today's Events
+                    </div>
                     <div class="event-count" id="eventCount">4 events</div>
                 </div>
                 <div id="errorContainer"></div>
@@ -551,7 +565,7 @@
                 currentTimeEl.style.color = color;
                 
                 // Apply subtle background effect
-                dateHeader.style.background = `rgba(${hexToRgb(color)}, 0.15)`;
+                dateHeader.style.background = `linear-gradient(160deg, rgba(30, 30, 30, 0.85) 0%, rgba(25, 25, 25, 0.9) 100%), rgba(${hexToRgb(color)}, 0.15)`;
                 dateHeader.style.borderBottom = `1px solid ${color}`;
             } else {
                 // Reset to default colors
@@ -562,7 +576,7 @@
                 currentTimeEl.style.color = "#f0f0f0";
                 
                 // Reset background
-                dateHeader.style.background = "rgba(30, 30, 30, 0.7)";
+                dateHeader.style.background = "linear-gradient(160deg, rgba(30, 30, 30, 0.85) 0%, rgba(25, 25, 25, 0.9) 100%)";
                 dateHeader.style.borderBottom = "1px solid rgba(80, 80, 80, 0.5)";
             }
         }
@@ -729,7 +743,6 @@
             // Create event elements
             events.forEach((event, index) => {
                 const eventContainer = document.createElement('li');
-                eventContainer.className = 'event-item-container';
                 
                 // Assign color in sequence
                 const colorIndex = index % EVENT_COLORS.length;
@@ -742,11 +755,11 @@
                 const endTime = event.end ? formatTime(event.end) : "";
                 
                 eventContainer.innerHTML = `
-                    <div class="event-time-box" style="border-left-color: ${eventColor}">
-                        <div class="start">${startTime}</div>
-                        ${endTime ? `<div class="end">${endTime}</div>` : ''}
-                    </div>
-                    <div class="event-item" style="border-left-color: ${eventColor}">
+                    <div class="event-item">
+                        <div class="event-time-container" style="border-left-color: ${eventColor}">
+                            <div class="start">${startTime}</div>
+                            ${endTime ? `<div class="end">${endTime}</div>` : ''}
+                        </div>
                         <div class="event-details">
                             <div class="event-title">${event.title || 'Untitled Event'}</div>
                             ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
