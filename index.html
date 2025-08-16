@@ -170,7 +170,7 @@
             gap: calc(18px * var(--base-size));
         }
         
-        /* NEW Event Layout - Time on left with divider */
+        /* NEW Event Layout - Time on top */
         .event-item {
             background: rgba(45, 45, 45, 0.8);
             border-radius: calc(14px * var(--base-size));
@@ -180,8 +180,10 @@
             border: 1px solid rgba(80, 80, 80, 0.4);
             animation: fadeIn 0.5s ease-out;
             display: flex;
+            flex-direction: column;
             overflow: hidden;
-            border-left: calc(5px * var(--base-size)) solid #64b5f6;
+            border-top: calc(5px * var(--base-size)) solid #64b5f6;
+            border-bottom: calc(5px * var(--base-size)) solid #64b5f6;
         }
         
         @keyframes fadeIn {
@@ -189,46 +191,48 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .event-time-container {
-            min-width: calc(100px * var(--base-size));
+        .event-top-bar {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: calc(18px * var(--base-size)) calc(15px * var(--base-size));
+            padding: calc(15px * var(--base-size)) calc(20px * var(--base-size));
             background: rgba(40, 40, 40, 0.6);
-            position: relative;
+            border-bottom: 1px solid rgba(80, 80, 80, 0.3);
         }
         
-        .event-time-container::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 15%;
-            height: 70%;
-            width: 1px;
-            background: linear-gradient(to bottom, 
-                transparent 0%, 
-                rgba(100, 181, 246, 0.5) 30%, 
-                rgba(100, 181, 246, 0.5) 70%, 
-                transparent 100%);
+        .event-time-container {
+            display: flex;
+            flex-direction: column;
         }
         
         .event-time-container .start {
             font-size: calc(1.25rem * var(--base-size));
             font-weight: 500;
-            margin-bottom: calc(5px * var(--base-size));
             color: #f0f0f0;
         }
         
         .event-time-container .end {
             font-size: calc(0.95rem * var(--base-size));
             color: rgba(200, 200, 200, 0.8);
+            margin-top: calc(3px * var(--base-size));
+        }
+        
+        .event-location-top {
+            color: rgba(200, 200, 200, 0.8);
+            font-size: calc(0.95rem * var(--base-size));
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-location-top i {
+            margin-right: calc(8px * var(--base-size));
+            color: #64b5f6;
         }
         
         .event-details {
             flex: 1;
             padding: calc(18px * var(--base-size)) calc(20px * var(--base-size));
+            text-align: center;
         }
         
         .event-title {
@@ -243,23 +247,6 @@
             font-size: calc(0.95rem * var(--base-size));
             margin-top: calc(10px * var(--base-size));
             line-height: 1.5;
-        }
-        
-        .event-location {
-            color: rgba(200, 200, 200, 0.8);
-            font-size: calc(0.95rem * var(--base-size));
-            display: flex;
-            align-items: center;
-            margin-top: calc(10px * var(--base-size));
-            padding: calc(8px * var(--base-size)) calc(12px * var(--base-size));
-            background: rgba(50, 50, 50, 0.4);
-            border-radius: calc(8px * var(--base-size));
-            width: fit-content;
-        }
-        
-        .event-location i {
-            margin-right: calc(8px * var(--base-size));
-            color: #64b5f6;
         }
         
         .no-events {
@@ -382,14 +369,6 @@
             .current-time {
                 font-size: calc(2.4rem * var(--base-size));
             }
-            
-            .event-item {
-                flex-direction: row;
-            }
-            
-            .event-time-container {
-                min-width: calc(90px * var(--base-size));
-            }
         }
         
         @media (max-width: 600px) {
@@ -410,29 +389,14 @@
                 font-size: calc(2.0rem * var(--base-size));
             }
             
-            .event-item {
+            .event-top-bar {
                 flex-direction: column;
+                align-items: flex-start;
+                gap: calc(10px * var(--base-size));
             }
             
-            .event-time-container {
-                width: 100%;
-                flex-direction: row;
-                justify-content: center;
-                gap: calc(25px * var(--base-size));
-                padding: calc(12px * var(--base-size));
-            }
-            
-            .event-time-container::after {
-                display: none;
-            }
-            
-            .event-time-container .start,
-            .event-time-container .end {
-                margin: 0;
-            }
-            
-            .event-details {
-                padding: calc(15px * var(--base-size));
+            .event-location-top {
+                align-self: flex-end;
             }
         }
     </style>
@@ -756,21 +720,27 @@
                 
                 eventContainer.innerHTML = `
                     <div class="event-item">
-                        <div class="event-time-container" style="border-left-color: ${eventColor}">
-                            <div class="start">${startTime}</div>
-                            ${endTime ? `<div class="end">${endTime}</div>` : ''}
-                        </div>
-                        <div class="event-details">
-                            <div class="event-title">${event.title || 'Untitled Event'}</div>
-                            ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
+                        <div class="event-top-bar">
+                            <div class="event-time-container">
+                                <div class="start">${startTime}</div>
+                                ${endTime ? `<div class="end">${endTime}</div>` : ''}
+                            </div>
                             ${event.location ? `
-                            <div class="event-location">
+                            <div class="event-location-top">
                                 <i class="fas fa-map-marker-alt"></i> ${event.location}
                             </div>
                             ` : ''}
                         </div>
+                        <div class="event-details">
+                            <div class="event-title">${event.title || 'Untitled Event'}</div>
+                            ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
+                        </div>
                     </div>
                 `;
+                
+                // Apply border colors
+                eventContainer.querySelector('.event-item').style.borderTopColor = eventColor;
+                eventContainer.querySelector('.event-item').style.borderBottomColor = eventColor;
                 
                 eventListEl.appendChild(eventContainer);
             });
