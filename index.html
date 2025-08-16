@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixed Calendar UI</title>
+    <title>Calendar UI - Tablet Optimized</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base size variable - set to 50% of original */
@@ -20,32 +20,19 @@
         }
         
         body {
-            background-color: #282828;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
             color: #f0f0f0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            overflow: hidden;
             padding: 20px;
         }
         
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(60, 60, 60, 0.8) 0%, rgba(40, 40, 40, 0.9) 70%);
-            z-index: -1;
-        }
-        
         .container {
-            max-width: calc(850px * var(--base-size));
-            width: 95%;
-            height: 95vh; /* Use viewport height */
+            max-width: 800px;
+            width: 100%;
+            height: 90vh;
             display: flex;
             flex-direction: column;
         }
@@ -53,31 +40,27 @@
         .calendar-section {
             display: flex;
             flex-direction: column;
-            background: rgba(35, 35, 35, 0.92);
-            border-radius: calc(16px * var(--base-size));
+            background: rgba(35, 35, 35, 0.95);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 calc(8px * var(--base-size)) calc(25px * var(--base-size)) rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(calc(12px * var(--base-size)));
-            border: 1px solid rgba(80, 80, 80, 0.3);
-            position: relative;
-            z-index: 1;
-            height: 100%; /* Take full height of container */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            height: 100%;
         }
         
-        /* Header with increased height and vertical centering */
+        /* Header with improved spacing */
         .date-header {
-            padding: calc(20px * var(--base-size)) calc(15px * var(--base-size)); /* Increased top padding */
+            padding: 25px 20px 15px;
             text-align: center;
-            border-bottom: 1px solid rgba(80, 80, 80, 0.5);
-            transition: all 0.5s ease;
-            background: rgba(30, 30, 30, 0.7);
+            border-bottom: 1px solid rgba(100, 100, 100, 0.4);
+            background: linear-gradient(to bottom, rgba(30, 30, 30, 0.9), rgba(25, 25, 25, 0.8));
             position: relative;
             overflow: hidden;
-            height: calc(200px * var(--base-size)); /* Increased height */
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically center content */
-            align-items: center; /* Horizontally center content */
+            justify-content: center;
+            align-items: center;
         }
         
         .date-header::before {
@@ -86,73 +69,73 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, #64b5f6, #ff6b6b, #a4bdfc);
-            opacity: 0.7;
         }
         
         .current-date {
-            font-size: calc(1.8rem * var(--base-size));
-            font-weight: 400;
-            margin-bottom: calc(8px * var(--base-size)); /* Increased spacing */
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 8px;
             color: #64b5f6;
-            text-shadow: 0 0 calc(10px * var(--base-size)) rgba(100, 181, 246, 0.3);
+            text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
         }
         
         .current-day {
-            font-size: calc(1.3rem * var(--base-size));
+            font-size: 1.3rem;
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: calc(15px * var(--base-size)); /* Increased spacing */
+            margin-bottom: 15px;
             color: #bbbbbb;
         }
         
         .current-time {
-            font-size: calc(2.4rem * var(--base-size)); /* Slightly larger */
+            font-size: 2.4rem;
             font-weight: 400;
-            margin: calc(8px * var(--base-size)) 0 calc(8px * var(--base-size)); /* Better spacing */
+            margin: 8px 0;
             color: #f0f0f0;
-            min-height: calc(40px * var(--base-size)); /* Ensure time has space */
+            min-height: 40px;
         }
         
         .timezone-info {
-            font-size: calc(0.9rem * var(--base-size));
+            font-size: 0.9rem;
             color: #a0a0a0;
-            margin-top: calc(5px * var(--base-size)); /* Increased spacing */
+            margin-top: 5px;
             font-style: italic;
         }
         
         .events-container {
-            flex: 1; /* Take remaining space */
+            flex: 1;
             overflow-y: auto;
-            padding: calc(15px * var(--base-size));
+            padding: 20px;
         }
         
         .events-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: calc(15px * var(--base-size));
-            padding: calc(10px * var(--base-size)) 0; /* Added vertical padding */
-            border-bottom: 1px solid rgba(80, 80, 80, 0.5);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(100, 100, 100, 0.4);
             position: sticky;
             top: 0;
-            background: rgba(35, 35, 35, 0.92);
+            background: rgba(35, 35, 35, 0.95);
             z-index: 10;
+            padding-top: 10px;
         }
         
         .events-title {
-            font-size: calc(1.3rem * var(--base-size));
-            font-weight: 500;
+            font-size: 1.4rem;
+            font-weight: 600;
             color: #64b5f6;
         }
         
         .event-count {
             background: rgba(100, 181, 246, 0.2);
-            padding: calc(4px * var(--base-size)) calc(10px * var(--base-size));
-            border-radius: calc(20px * var(--base-size));
-            font-size: calc(0.85rem * var(--base-size));
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             color: #bbbbbb;
         }
         
@@ -160,53 +143,20 @@
             list-style-type: none;
             display: flex;
             flex-direction: column;
-            gap: calc(12px * var(--base-size));
+            gap: 15px;
         }
         
-        /* Updated Event Layout */
-        .event-item-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding-left: calc(90px * var(--base-size)); /* Space for time */
-        }
-        
-        .event-time-container {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            min-width: calc(80px * var(--base-size));
-            font-weight: 500;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; /* Align times to right */
-            padding-right: calc(15px * var(--base-size));
-            z-index: 2;
-        }
-        
-        .event-time-container .start {
-            font-size: calc(1.1rem * var(--base-size));
-            margin-bottom: calc(3px * var(--base-size));
-            color: #bbbbbb;
-        }
-        
-        .event-time-container .end {
-            font-size: calc(0.9rem * var(--base-size));
-            color: rgba(200, 200, 200, 0.7);
-        }
-        
+        /* Simplified Event Layout for Mobile/Tablet */
         .event-item {
             background: rgba(45, 45, 45, 0.8);
-            padding: calc(15px * var(--base-size));
-            border-radius: calc(12px * var(--base-size));
+            padding: 20px;
+            border-radius: 15px;
             transition: all 0.3s ease;
-            box-shadow: 0 calc(6px * var(--base-size)) calc(20px * var(--base-size)) rgba(0, 0, 0, 0.4);
-            border-left: calc(4px * var(--base-size)) solid #64b5f6;
-            backdrop-filter: blur(calc(5px * var(--base-size)));
-            border: 1px solid rgba(80, 80, 80, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            border-left: 5px solid #64b5f6;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(100, 100, 100, 0.4);
             animation: fadeIn 0.5s ease-out;
-            width: 100%; /* Take full available space */
         }
         
         @keyframes fadeIn {
@@ -215,53 +165,69 @@
         }
         
         .event-item:hover {
-            transform: translateY(calc(-3px * var(--base-size)));
-            box-shadow: 0 calc(8px * var(--base-size)) calc(25px * var(--base-size)) rgba(0, 0, 0, 0.5);
-            border-left: calc(4px * var(--base-size)) solid #ff6b6b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border-left: 5px solid #ff6b6b;
             background: rgba(50, 50, 50, 0.9);
         }
         
-        .event-details {
-            flex: 1;
+        .event-time-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(100, 100, 100, 0.4);
+        }
+        
+        .event-time-container .start {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #bbbbbb;
+            margin-right: 15px;
+        }
+        
+        .event-time-container .end {
+            font-size: 1rem;
+            color: rgba(200, 200, 200, 0.7);
         }
         
         .event-title {
-            font-size: calc(1.2rem * var(--base-size));
-            margin-bottom: calc(6px * var(--base-size));
-            font-weight: 500;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 600;
             color: #f0f0f0;
         }
         
         .event-description {
             color: rgba(200, 200, 200, 0.8);
-            font-size: calc(0.9rem * var(--base-size));
-            margin-top: calc(8px * var(--base-size));
-            line-height: 1.4;
+            font-size: 1rem;
+            margin-top: 10px;
+            line-height: 1.5;
         }
         
         .event-location {
             color: rgba(200, 200, 200, 0.8);
-            font-size: calc(0.9rem * var(--base-size));
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            margin-top: calc(8px * var(--base-size));
+            margin-top: 10px;
         }
         
         .event-location i {
-            margin-right: calc(6px * var(--base-size));
+            margin-right: 8px;
             color: #64b5f6;
-            font-size: calc(0.9rem * var(--base-size));
+            font-size: 1rem;
         }
         
         .no-events {
             text-align: center;
-            padding: calc(40px * var(--base-size)) calc(15px * var(--base-size));
+            padding: 40px 20px;
             color: rgba(200, 200, 200, 0.6);
             font-style: italic;
-            font-size: calc(1.1rem * var(--base-size));
-            border-radius: calc(12px * var(--base-size));
+            font-size: 1.2rem;
+            border-radius: 15px;
             background: rgba(45, 45, 45, 0.6);
-            margin-top: calc(15px * var(--base-size));
+            margin-top: 20px;
             animation: fadeIn 0.5s ease-out;
             height: 100%;
             display: flex;
@@ -271,25 +237,25 @@
         }
         
         .no-events i {
-            font-size: calc(2.5rem * var(--base-size));
-            margin-bottom: calc(15px * var(--base-size));
+            font-size: 3rem;
+            margin-bottom: 20px;
             display: block;
             color: #64b5f6;
         }
         
         /* Scrollbar styling */
         ::-webkit-scrollbar {
-            width: calc(6px * var(--base-size));
+            width: 8px;
         }
         
         ::-webkit-scrollbar-track {
             background: rgba(45, 45, 45, 0.5);
-            border-radius: calc(8px * var(--base-size));
+            border-radius: 10px;
         }
         
         ::-webkit-scrollbar-thumb {
             background: rgba(100, 181, 246, 0.5);
-            border-radius: calc(8px * var(--base-size));
+            border-radius: 10px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
@@ -300,7 +266,7 @@
         .loading {
             display: flex;
             justify-content: center;
-            padding: calc(40px * var(--base-size));
+            padding: 40px;
             flex-direction: column;
             align-items: center;
             animation: fadeIn 0.5s ease-out;
@@ -308,13 +274,13 @@
         }
         
         .spinner {
-            width: calc(40px * var(--base-size));
-            height: calc(40px * var(--base-size));
-            border: calc(3px * var(--base-size)) solid rgba(100, 181, 246, 0.3);
-            border-top: calc(3px * var(--base-size)) solid rgba(100, 181, 246, 1);
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(100, 181, 246, 0.3);
+            border-top: 4px solid rgba(100, 181, 246, 1);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: calc(15px * var(--base-size));
+            margin-bottom: 20px;
         }
         
         @keyframes spin {
@@ -324,18 +290,18 @@
         
         .status-text {
             color: rgba(200, 200, 200, 0.8);
-            font-size: calc(1rem * var(--base-size));
+            font-size: 1.1rem;
             text-align: center;
         }
         
         .error-message {
             background: rgba(255, 107, 107, 0.3);
             color: #fff;
-            padding: calc(12px * var(--base-size));
-            border-radius: calc(10px * var(--base-size));
-            margin: calc(12px * var(--base-size)) 0;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
             text-align: center;
-            backdrop-filter: blur(calc(5px * var(--base-size)));
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 0.5s ease-out;
         }
@@ -344,110 +310,115 @@
             background: rgba(100, 181, 246, 0.7);
             color: #fff;
             border: none;
-            padding: calc(6px * var(--base-size)) calc(14px * var(--base-size));
-            border-radius: calc(4px * var(--base-size));
-            margin-top: calc(8px * var(--base-size));
+            padding: 8px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
             cursor: pointer;
             font-weight: 600;
-            font-size: calc(0.9rem * var(--base-size));
+            font-size: 1rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(calc(5px * var(--base-size)));
+            backdrop-filter: blur(5px);
         }
         
         .retry-btn:hover {
             background: rgba(100, 181, 246, 1);
-            transform: translateY(calc(-2px * var(--base-size)));
-            box-shadow: 0 calc(4px * var(--base-size)) calc(12px * var(--base-size)) rgba(100, 181, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(100, 181, 246, 0.4);
         }
         
-        /* Tablet-specific fixes */
-        @media (max-width: 1024px) and (min-width: 601px) {
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                height: 95vh;
+            }
+            
             .date-header {
-                height: calc(220px * var(--base-size)); /* Increased height */
-                padding-top: calc(25px * var(--base-size)); /* More top padding */
+                padding: 20px 15px;
             }
             
             .current-date {
-                margin-top: calc(10px * var(--base-size)); /* Added top margin */
-            }
-            
-            .events-header {
-                padding-top: calc(15px * var(--base-size)); /* More top padding */
-                margin-top: calc(10px * var(--base-size)); /* Added top margin */
-            }
-            
-            .event-item-container {
-                padding-left: calc(90px * var(--base-size)) !important;
-                flex-direction: row !important;
-                align-items: flex-start;
-            }
-            
-            .event-time-container {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                height: 100% !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: flex-end !important;
-                padding-right: calc(15px * var(--base-size)) !important;
-                transform: none !important;
-            }
-            
-            .event-time-container .start {
-                margin-bottom: calc(5px * var(--base-size)) !important;
-            }
-            
-            .event-item {
-                width: 100% !important;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .date-header {
-                padding: calc(15px * var(--base-size)) calc(10px * var(--base-size));
-                height: calc(170px * var(--base-size));
-            }
-            
-            .current-date {
-                font-size: calc(1.6rem * var(--base-size));
+                font-size: 1.6rem;
             }
             
             .current-day {
-                font-size: calc(1.1rem * var(--base-size));
+                font-size: 1.1rem;
+                margin-bottom: 12px;
             }
             
             .current-time {
-                font-size: calc(2rem * var(--base-size));
+                font-size: 2rem;
             }
             
-            .event-item-container {
-                padding-left: 0;
-                flex-direction: column;
-                align-items: flex-start;
+            .events-container {
+                padding: 15px;
             }
             
-            .event-time-container {
-                position: relative;
-                transform: none;
-                top: auto;
-                left: auto;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                padding-right: 0;
-                padding-bottom: calc(8px * var(--base-size));
-                width: 100%;
+            .events-title {
+                font-size: 1.2rem;
             }
             
-            .event-time-container .start {
-                margin-right: calc(15px * var(--base-size));
-                margin-bottom: 0;
+            .event-count {
+                font-size: 0.8rem;
+                padding: 4px 12px;
             }
             
             .event-item {
-                width: 100%;
+                padding: 15px;
+            }
+            
+            .event-time-container .start {
+                font-size: 1.1rem;
+            }
+            
+            .event-title {
+                font-size: 1.15rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                height: 97vh;
+            }
+            
+            .date-header {
+                padding: 15px 10px;
+            }
+            
+            .current-date {
+                font-size: 1.4rem;
+            }
+            
+            .current-day {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            
+            .current-time {
+                font-size: 1.8rem;
+            }
+            
+            .events-container {
+                padding: 12px;
+            }
+            
+            .events-title {
+                font-size: 1.1rem;
+            }
+            
+            .event-count {
+                font-size: 0.75rem;
+            }
+            
+            .event-time-container .start {
+                font-size: 1rem;
+            }
+            
+            .event-title {
+                font-size: 1.05rem;
             }
         }
     </style>
@@ -577,7 +548,7 @@
                 currentTimeEl.style.color = color;
                 
                 // Apply subtle background effect
-                dateHeader.style.background = `rgba(${hexToRgb(color)}, 0.15)`;
+                dateHeader.style.background = `linear-gradient(to bottom, rgba(${hexToRgb(color)}, 0.1), rgba(25, 25, 25, 0.8)`;
                 dateHeader.style.borderBottom = `1px solid ${color}`;
             } else {
                 // Reset to default colors
@@ -588,8 +559,8 @@
                 currentTimeEl.style.color = "#f0f0f0";
                 
                 // Reset background
-                dateHeader.style.background = "rgba(30, 30, 30, 0.7)";
-                dateHeader.style.borderBottom = "1px solid rgba(80, 80, 80, 0.5)";
+                dateHeader.style.background = "linear-gradient(to bottom, rgba(30, 30, 30, 0.9), rgba(25, 25, 25, 0.8)";
+                dateHeader.style.borderBottom = "1px solid rgba(100, 100, 100, 0.4)";
             }
         }
         
@@ -755,7 +726,7 @@
             // Create event elements
             events.forEach((event, index) => {
                 const eventContainer = document.createElement('li');
-                eventContainer.className = 'event-item-container';
+                eventContainer.className = 'event-item';
                 
                 // Assign color in sequence
                 const colorIndex = index % EVENT_COLORS.length;
@@ -772,22 +743,19 @@
                         <div class="start">${startTime}</div>
                         ${endTime ? `<div class="end">${endTime}</div>` : ''}
                     </div>
-                    <div class="event-item">
-                        <div class="event-details">
-                            <div class="event-title">${event.title || 'Untitled Event'}</div>
-                            ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
-                            ${event.location ? `
-                            <div class="event-location">
-                                <i class="fas fa-map-marker-alt"></i> ${event.location}
-                            </div>
-                            ` : ''}
+                    <div class="event-details">
+                        <div class="event-title">${event.title || 'Untitled Event'}</div>
+                        ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
+                        ${event.location ? `
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i> ${event.location}
                         </div>
+                        ` : ''}
                     </div>
                 `;
                 
                 // Apply event color to left border
-                const eventItem = eventContainer.querySelector('.event-item');
-                eventItem.style.borderLeftColor = eventColor;
+                eventContainer.style.borderLeftColor = eventColor;
                 
                 eventListEl.appendChild(eventContainer);
             });
