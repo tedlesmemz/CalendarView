@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Improved Calendar UI - Fixed Tablet View</title>
+    <title>Improved Calendar UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base size variable - set to 50% of original */
@@ -28,7 +28,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            padding: 0;
+            padding: 20px;
         }
         
         body::before {
@@ -66,14 +66,14 @@
         
         /* Header with increased height and vertical centering */
         .date-header {
-            padding: calc(10px * var(--base-size)) calc(15px * var(--base-size));
+            padding: calc(25px * var(--base-size)) calc(15px * var(--base-size)); /* Increased top padding */
             text-align: center;
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
             transition: all 0.5s ease;
             background: rgba(30, 30, 30, 0.7);
             position: relative;
             overflow: hidden;
-            height: calc(180px * var(--base-size)); /* Increased height */
+            height: calc(210px * var(--base-size)); /* Increased height */
             display: flex;
             flex-direction: column;
             justify-content: center; /* Vertically center content */
@@ -94,7 +94,7 @@
         .current-date {
             font-size: calc(1.8rem * var(--base-size));
             font-weight: 400;
-            margin-bottom: calc(5px * var(--base-size)); /* Increased spacing */
+            margin-bottom: calc(8px * var(--base-size)); /* Increased spacing */
             color: #64b5f6;
             text-shadow: 0 0 calc(10px * var(--base-size)) rgba(100, 181, 246, 0.3);
         }
@@ -104,14 +104,14 @@
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: calc(12px * var(--base-size)); /* Increased spacing */
+            margin-bottom: calc(15px * var(--base-size)); /* Increased spacing */
             color: #bbbbbb;
         }
         
         .current-time {
             font-size: calc(2.4rem * var(--base-size)); /* Slightly larger */
             font-weight: 400;
-            margin: calc(8px * var(--base-size)) 0 calc(5px * var(--base-size)); /* Better spacing */
+            margin: calc(12px * var(--base-size)) 0 calc(8px * var(--base-size)); /* Better spacing */
             color: #f0f0f0;
             min-height: calc(40px * var(--base-size)); /* Ensure time has space */
         }
@@ -119,7 +119,7 @@
         .timezone-info {
             font-size: calc(0.9rem * var(--base-size));
             color: #a0a0a0;
-            margin-top: calc(5px * var(--base-size)); /* Increased spacing */
+            margin-top: calc(8px * var(--base-size)); /* Increased spacing */
             font-style: italic;
         }
         
@@ -134,14 +134,12 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: calc(15px * var(--base-size));
-            padding-bottom: calc(12px * var(--base-size));
+            padding: calc(15px * var(--base-size)) 0; /* Added vertical padding */
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
             position: sticky;
             top: 0;
             background: rgba(35, 35, 35, 0.92);
             z-index: 10;
-            padding-top: calc(5px * var(--base-size));
-            margin-top: calc(5px * var(--base-size));
         }
         
         .events-title {
@@ -162,43 +160,46 @@
             list-style-type: none;
             display: flex;
             flex-direction: column;
-            gap: calc(12px * var(--base-size));
+            gap: calc(15px * var(--base-size));
         }
         
-        /* Updated Event Layout */
+        /* NEW Event Layout with Separate Time Box */
         .event-item-container {
             display: flex;
-            align-items: center;
-            position: relative;
-            padding-left: calc(90px * var(--base-size)); /* Space for time */
+            flex-direction: row;
+            align-items: stretch;
+            gap: calc(15px * var(--base-size));
         }
         
-        .event-time-container {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            min-width: calc(80px * var(--base-size));
-            font-weight: 500;
+        .event-time-box {
+            min-width: calc(85px * var(--base-size));
+            background: rgba(45, 45, 45, 0.8);
+            border-radius: calc(10px * var(--base-size));
+            padding: calc(12px * var(--base-size));
             display: flex;
             flex-direction: column;
-            align-items: flex-end; /* Align times to right */
-            padding-right: calc(15px * var(--base-size));
-            z-index: 2;
+            justify-content: center;
+            align-items: center;
+            border-left: calc(4px * var(--base-size)) solid #64b5f6;
+            backdrop-filter: blur(calc(5px * var(--base-size)));
+            border: 1px solid rgba(80, 80, 80, 0.4);
+            box-shadow: 0 calc(4px * var(--base-size)) calc(10px * var(--base-size)) rgba(0, 0, 0, 0.3);
         }
         
-        .event-time-container .start {
+        .event-time-box .start {
             font-size: calc(1.1rem * var(--base-size));
+            font-weight: 500;
             margin-bottom: calc(3px * var(--base-size));
-            color: #bbbbbb;
+            color: #f0f0f0;
         }
         
-        .event-time-container .end {
+        .event-time-box .end {
             font-size: calc(0.9rem * var(--base-size));
             color: rgba(200, 200, 200, 0.7);
         }
         
         .event-item {
+            flex: 1;
             background: rgba(45, 45, 45, 0.8);
             padding: calc(15px * var(--base-size));
             border-radius: calc(12px * var(--base-size));
@@ -208,7 +209,6 @@
             backdrop-filter: blur(calc(5px * var(--base-size)));
             border: 1px solid rgba(80, 80, 80, 0.4);
             animation: fadeIn 0.5s ease-out;
-            width: 100%; /* Take full available space */
         }
         
         @keyframes fadeIn {
@@ -219,7 +219,6 @@
         .event-item:hover {
             transform: translateY(calc(-3px * var(--base-size)));
             box-shadow: 0 calc(8px * var(--base-size)) calc(25px * var(--base-size)) rgba(0, 0, 0, 0.5);
-            border-left: calc(4px * var(--base-size)) solid #ff6b6b;
             background: rgba(50, 50, 50, 0.9);
         }
         
@@ -364,46 +363,36 @@
         
         /* Tablet-specific fixes */
         @media (max-width: 1024px) and (min-width: 601px) {
-            .event-item-container {
-                padding-left: calc(90px * var(--base-size)) !important;
-                flex-direction: row !important;
-            }
-            
-            .event-time-container {
-                position: absolute !important;
-                left: 0 !important;
-                top: 50% !important;
-                transform: translateY(-50%) !important;
-                flex-direction: column !important;
-                align-items: flex-end !important;
-                padding-right: calc(15px * var(--base-size)) !important;
-                width: auto !important;
-                padding-bottom: 0 !important;
-            }
-            
-            .event-time-container .start {
-                margin-right: 0 !important;
-                margin-bottom: calc(3px * var(--base-size)) !important;
-            }
-            
-            .event-item {
-                width: 100% !important;
-            }
-            
             .date-header {
-                height: calc(200px * var(--base-size));
+                height: calc(220px * var(--base-size)); /* Increased height */
+                padding-top: calc(30px * var(--base-size)); /* More top padding */
+            }
+            
+            .current-date {
+                margin-top: calc(10px * var(--base-size)); /* Added top margin */
             }
             
             .events-header {
-                padding-top: calc(10px * var(--base-size));
-                margin-top: calc(10px * var(--base-size));
+                padding-top: calc(15px * var(--base-size)); /* More top padding */
+                margin-top: calc(10px * var(--base-size)); /* Added top margin */
+            }
+            
+            .event-item-container {
+                flex-direction: row !important;
+                align-items: stretch;
+            }
+            
+            .event-time-box {
+                min-width: calc(85px * var(--base-size));
+                align-items: center;
+                justify-content: center;
             }
         }
         
         @media (max-width: 600px) {
             .date-header {
-                padding: calc(8px * var(--base-size)) calc(10px * var(--base-size));
-                height: calc(150px * var(--base-size));
+                padding: calc(20px * var(--base-size)) calc(10px * var(--base-size));
+                height: calc(180px * var(--base-size));
             }
             
             .current-date {
@@ -419,31 +408,20 @@
             }
             
             .event-item-container {
-                padding-left: 0;
                 flex-direction: column;
-                align-items: flex-start;
             }
             
-            .event-time-container {
-                position: relative;
-                transform: none;
-                top: auto;
-                left: auto;
+            .event-time-box {
+                width: 100%;
                 flex-direction: row;
                 justify-content: flex-start;
-                align-items: center;
-                padding-right: 0;
-                padding-bottom: calc(8px * var(--base-size));
-                width: 100%;
+                gap: calc(20px * var(--base-size));
+                padding: calc(10px * var(--base-size)) calc(15px * var(--base-size));
             }
             
-            .event-time-container .start {
-                margin-right: calc(15px * var(--base-size));
-                margin-bottom: 0;
-            }
-            
-            .event-item {
-                width: 100%;
+            .event-time-box .start,
+            .event-time-box .end {
+                margin: 0;
             }
         }
     </style>
@@ -764,11 +742,11 @@
                 const endTime = event.end ? formatTime(event.end) : "";
                 
                 eventContainer.innerHTML = `
-                    <div class="event-time-container">
+                    <div class="event-time-box" style="border-left-color: ${eventColor}">
                         <div class="start">${startTime}</div>
                         ${endTime ? `<div class="end">${endTime}</div>` : ''}
                     </div>
-                    <div class="event-item">
+                    <div class="event-item" style="border-left-color: ${eventColor}">
                         <div class="event-details">
                             <div class="event-title">${event.title || 'Untitled Event'}</div>
                             ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
@@ -780,10 +758,6 @@
                         </div>
                     </div>
                 `;
-                
-                // Apply event color to left border
-                const eventItem = eventContainer.querySelector('.event-item');
-                eventItem.style.borderLeftColor = eventColor;
                 
                 eventListEl.appendChild(eventContainer);
             });
