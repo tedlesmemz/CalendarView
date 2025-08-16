@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Improved Calendar UI - Fixed Tablet View</title>
+    <title>Fixed Calendar UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base size variable - set to 50% of original */
@@ -28,7 +28,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            padding: 0;
+            padding: 20px;
         }
         
         body::before {
@@ -66,14 +66,14 @@
         
         /* Header with increased height and vertical centering */
         .date-header {
-            padding: calc(10px * var(--base-size)) calc(15px * var(--base-size));
+            padding: calc(20px * var(--base-size)) calc(15px * var(--base-size)); /* Increased top padding */
             text-align: center;
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
             transition: all 0.5s ease;
             background: rgba(30, 30, 30, 0.7);
             position: relative;
             overflow: hidden;
-            height: calc(180px * var(--base-size)); /* Increased height */
+            height: calc(200px * var(--base-size)); /* Increased height */
             display: flex;
             flex-direction: column;
             justify-content: center; /* Vertically center content */
@@ -94,7 +94,7 @@
         .current-date {
             font-size: calc(1.8rem * var(--base-size));
             font-weight: 400;
-            margin-bottom: calc(5px * var(--base-size)); /* Increased spacing */
+            margin-bottom: calc(8px * var(--base-size)); /* Increased spacing */
             color: #64b5f6;
             text-shadow: 0 0 calc(10px * var(--base-size)) rgba(100, 181, 246, 0.3);
         }
@@ -104,14 +104,14 @@
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: calc(12px * var(--base-size)); /* Increased spacing */
+            margin-bottom: calc(15px * var(--base-size)); /* Increased spacing */
             color: #bbbbbb;
         }
         
         .current-time {
             font-size: calc(2.4rem * var(--base-size)); /* Slightly larger */
             font-weight: 400;
-            margin: calc(8px * var(--base-size)) 0 calc(5px * var(--base-size)); /* Better spacing */
+            margin: calc(8px * var(--base-size)) 0 calc(8px * var(--base-size)); /* Better spacing */
             color: #f0f0f0;
             min-height: calc(40px * var(--base-size)); /* Ensure time has space */
         }
@@ -134,14 +134,12 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: calc(15px * var(--base-size));
-            padding-bottom: calc(12px * var(--base-size));
+            padding: calc(10px * var(--base-size)) 0; /* Added vertical padding */
             border-bottom: 1px solid rgba(80, 80, 80, 0.5);
             position: sticky;
             top: 0;
             background: rgba(35, 35, 35, 0.92);
             z-index: 10;
-            padding-top: calc(5px * var(--base-size));
-            margin-top: calc(5px * var(--base-size));
         }
         
         .events-title {
@@ -364,46 +362,52 @@
         
         /* Tablet-specific fixes */
         @media (max-width: 1024px) and (min-width: 601px) {
+            .date-header {
+                height: calc(220px * var(--base-size)); /* Increased height */
+                padding-top: calc(25px * var(--base-size)); /* More top padding */
+            }
+            
+            .current-date {
+                margin-top: calc(10px * var(--base-size)); /* Added top margin */
+            }
+            
+            .events-header {
+                padding-top: calc(15px * var(--base-size)); /* More top padding */
+                margin-top: calc(10px * var(--base-size)); /* Added top margin */
+            }
+            
             .event-item-container {
                 padding-left: calc(90px * var(--base-size)) !important;
                 flex-direction: row !important;
+                align-items: flex-start;
             }
             
             .event-time-container {
                 position: absolute !important;
                 left: 0 !important;
-                top: 50% !important;
-                transform: translateY(-50%) !important;
+                top: 0 !important;
+                height: 100% !important;
+                display: flex !important;
                 flex-direction: column !important;
+                justify-content: center !important;
                 align-items: flex-end !important;
                 padding-right: calc(15px * var(--base-size)) !important;
-                width: auto !important;
-                padding-bottom: 0 !important;
+                transform: none !important;
             }
             
             .event-time-container .start {
-                margin-right: 0 !important;
-                margin-bottom: calc(3px * var(--base-size)) !important;
+                margin-bottom: calc(5px * var(--base-size)) !important;
             }
             
             .event-item {
                 width: 100% !important;
             }
-            
-            .date-header {
-                height: calc(200px * var(--base-size));
-            }
-            
-            .events-header {
-                padding-top: calc(10px * var(--base-size));
-                margin-top: calc(10px * var(--base-size));
-            }
         }
         
         @media (max-width: 600px) {
             .date-header {
-                padding: calc(8px * var(--base-size)) calc(10px * var(--base-size));
-                height: calc(150px * var(--base-size));
+                padding: calc(15px * var(--base-size)) calc(10px * var(--base-size));
+                height: calc(170px * var(--base-size));
             }
             
             .current-date {
